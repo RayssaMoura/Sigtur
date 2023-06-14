@@ -1,12 +1,12 @@
 import json # Importei a biblioteca json
 
 alunos = {} # criei um dicionário vazio para armazenar os dados dos alunos
-turmas = {}
 
-# crie uma função para salvar os dados em um arquivo
+
+# criei uma função para salvar os dados em um arquivo
 def salvar_dados(dados, nome_arquivo):
     with open(nome_arquivo, 'w') as f: # abre o arquivo no modo de escrita
-        json.dump(dados, f) # grava os dados no arquivo usando oJSON
+        json.dump(dados, f) # grava os dados no arquivo usando o JSON
 
 # Função para carregar os dados de um arquivo
 def carregar_dados(nome_arquivo):
@@ -14,7 +14,7 @@ def carregar_dados(nome_arquivo):
         with open(nome_arquivo, 'r') as file: # abre o arquivo no modo de leitura
             dicionario = json.load(file) #carrega os dados no arquivo usando oJSON
             return dicionario
-    except: # se tiver algum erro no codigo acima quando rodado, executa o bloco a seguir
+    except ArquivoNaoEncontradoError:  # se tiver algum erro no codigo acima quando rodado, executa o bloco a seguir
         return {}
 
 # Carregar dados existentes (se houver) 
@@ -65,7 +65,11 @@ def gerar_matricula(alunos):
     matricula = len(alunos) + 1 # ver o total de alunos e incrementa mais um
     return matricula 
 
-def editar_aluno(): # crie uma funcao para editar os aluno
+def editar_aluno():
+    if not alunos:
+        print("Não há alunos cadastrados.")
+        return
+
     print("\nLista de alunos cadastrados:") 
     for matricula, aluno in alunos.items(): # mostra a lista de alunos cadastrados
         print(f"Matrícula: {matricula}")
@@ -73,35 +77,56 @@ def editar_aluno(): # crie uma funcao para editar os aluno
         print(f"Semestre: {aluno['semestre']}")
         print("----------")
 
-    matricula_ou_nome = input("\nDigite a matrícula ou o nome do aluno que você quer editar: ").upper() # recebe a matricula ou o nome, se for o nome poe todo pra maiusculo
 
-    for matricula, info_aluno in alunos.items(): # percorre o dic alunos
-        if matricula_ou_nome == matricula or matricula_ou_nome == info_aluno['nome']: # verifica se a matricula ou o nome digitado é igual à matrícula ou o nome do aluno
-            break # se for, e uma matricula ou um nome que e de um aluno do dic alunos
+    nome_ou_matricula = input("\nDeseja editar por matrícula (M) ou por nome (N)? ").upper()
+    
+    if nome_ou_matricula == "M":
+        matricula = input("\nDigite a matrícula do aluno a ser editado: ")
+        print("\nDados do aluno encontrado:")
+        print(f"Matrícula: {aluno['matricula']}")
+        print(f"Nome: {aluno['nome']}")
+        print(f"Semestre: {aluno['semestre']}")
 
-    if aluno is None: # se o aluno nao estiver no dic
-        print("Erro: Aluno inexistente.") # mostra uma mensagem de erro
-        return
+        if matricula in alunos:
+            aluno = alunos[matricula]
+            novo_nome = input("\nDigite o novo nome do aluno (ou pressione Enter para manter o mesmo): ").upper()
+            novo_semestre = input("Digite o novo semestre do aluno (ou pressione Enter para manter o mesmo): ")
+            
+            if novo_nome: # verifica se foi digitado um novo nome
+                aluno['nome'] = novo_nome # se tiver sido, atualiza o nome do aluno com o novo nome digitado
+            if novo_semestre:  # verifica se foi digitado um novo semestre
+                aluno['semestre'] = novo_semestre  # se tiver sido, atualiza o semestre do aluno com o novo digitado
 
-    # mostra os dados do aluno encontrado
-    print("\nDados do aluno encontrado:")
-    print(f"Matrícula: {aluno['matricula']}")
-    print(f"Nome: {aluno['nome']}")
-    print(f"Semestre: {aluno['semestre']}")
+            if not novo_nome and not novo_semestre: # verifica se nenhum novo nome e novo semestre foram digitados. 
+                print("Nenhum dado foi alterado.") # se nao, mostra que nada foi alterado
+            else: # se pelo menos algum tiver sido mudado,
+                salvar_dados(alunos, 'alunos.json') # salva os dados atualizados no arquivo alunos. json
+                print("Aluno editado com sucesso.") 
 
-    novo_nome = input("\nDigite o novo nome do aluno (ou pressione Enter para manter o mesmo): ").upper() # recebe o novo nome e transforma para maiusculo
-    novo_semestre = input("Digite o novo semestre do aluno (ou pressione Enter para manter o mesmo): ") #recebe o numero corresponde ao semestre
+    elif nome_ou_matricula == "N":
+        novo_nome = input("Digite o nome do aluno a ser editado: ").upper()
+        
+        for matricula, aluno in alunos.items():
+            if aluno['nome'] == novo_nome:
+                novo_nome = input("Digite o novo nome do aluno (ou pressione Enter para manter o mesmo): ")
+                novo_semestre = input("Digite o novo semestre do aluno (ou pressione Enter para manter o mesmo): ")
+                
+                if novo_nome: # verifica se foi digitado um novo nome
+                    aluno['nome'] = novo_nome # se tiver sido, atualiza o nome do aluno com o novo nome digitado
+                if novo_semestre:  # verifica se foi digitado um novo semestre
+                    aluno['semestre'] = novo_semestre  # se tiver sido, atualiza o semestre do aluno com o novo digitado
 
-    if novo_nome: # verifica se foi digitado um novo nome
-        aluno['nome'] = novo_nome # se tiver sido, atualiza o nome do aluno com o novo nome digitado
-    if novo_semestre:  # verifica se foi digitado um novo semestre
-        aluno['semestre'] = novo_semestre  # se tiver sido, atualiza o semestre do aluno com o novo digitado
-
-    if not novo_nome and not novo_semestre: # verifica se nenhum novo nome e novo semestre foram digitados. 
-        print("Nenhum dado foi alterado.") # se nao, mostra que nada foi alterado
-    else: # se pelo menos algum tiver sido mudado,
-        salvar_dados(alunos, 'alunos.json') # salva os dados atualizados no arquivo alunos. json
-        print("Aluno editado com sucesso.") 
+                if not novo_nome and not novo_semestre: # verifica se nenhum novo nome e novo semestre foram digitados. 
+                    print("Nenhum dado foi alterado.") # se nao, mostra que nada foi alterado
+                else: # se pelo menos algum tiver sido mudado,
+                    salvar_dados(alunos, 'alunos.json') # salva os dados atualizados no arquivo alunos. json
+                    print("Aluno editado com sucesso.") 
+        
+            else:
+                print("Professor não encontrado.")
+            
+    else:
+        print("Opção inválida. Tente novamente.")
 
 def visualizar_alunos(): # crie uma funcao para vizualizar os alunos cadastrados
     if not alunos: # se nao tiver nenhum aluno cadastrado,
