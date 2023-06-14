@@ -10,12 +10,17 @@ def salvar_dados(dados, nome_arquivo):
 
 # Função para carregar os dados de um arquivo
 def carregar_dados(nome_arquivo):
-    try: # roda o codigo abaixo
-        with open(nome_arquivo, 'r') as file: # abre o arquivo no modo de leitura
-            dicionario = json.load(file) #carrega os dados no arquivo usando oJSON
+    try:
+        with open(nome_arquivo, 'r') as file:
+            dicionario = json.load(file)
             return dicionario
-    except ArquivoNaoEncontradoError:  # se tiver algum erro no codigo acima quando rodado, executa o bloco a seguir
+    except FileNotFoundError:
+        print(f"Erro: O arquivo '{nome_arquivo}' não foi encontrado.")
         return {}
+    except json.JSONDecodeError:
+        print(f"Erro: O arquivo '{nome_arquivo}' não está no formato JSON válido.")
+        return {}
+
 
 # Carregar dados existentes (se houver) 
 alunos = carregar_dados('alunos.json')
