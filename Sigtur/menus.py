@@ -1,4 +1,4 @@
-
+'''
 # menu principal 
 def menu_principal():
     while True:
@@ -14,8 +14,6 @@ def menu_principal():
         print("----------------------------------------------------------------------------------------------------------------+")
         opcao = int(input(">>> Escolha uma das opções acima para começar a gerenciar suas turmas de forma eficiente:  "))
 
-
-'''
         if opcao == '1':
             menu_coordenador()
         elif opcao == '2':
@@ -25,7 +23,7 @@ def menu_principal():
         elif opcao == '0':
             break
         else:
-            print("Opção inválida. Tente novamente.")'''
+            print("Opção inválida. Tente novamente.")
 
 def menu_coordenador():
     while True:
@@ -41,9 +39,7 @@ def menu_coordenador():
         print("-----------------------------------------------------------------------------------------------------------------------+")
         opcao = int(input(">>> Escolha uma das opções acima para começar :  "))
     
-        
-        
-'''     if opcao == '1':
+        if opcao == '1':
             criar_turma()
         elif opcao == '2':
             editar_turma()
@@ -54,8 +50,9 @@ def menu_coordenador():
         elif opcao == '0':
             break
         else:
-            print("Opção inválida. Tente novamente.")'''
+            print("Opção inválida. Tente novamente.")
 
+#Menu professor
 def menu_professor():
     while True:
         print("\n+==========================================================Bem-vindo ao Menu Professor!================================================================+")
@@ -71,7 +68,7 @@ def menu_professor():
         print("-------------------------------------------------------------------------------------------------------------------------------------------------------+")
         opcao = input(">>> Escolha uma das opções acima:")
         
-'''     if opcao == '1':
+        if opcao == '1':
             cadastrar_professor()
         elif opcao == '2':
             editar_professor()
@@ -86,15 +83,16 @@ def menu_professor():
         elif opcao == '0':
             break
         else:
-            print("Opção inválida. Tente novamente.")'''
+            print("Opção inválida. Tente novamente.")
 
+#Menu Aluno
 def menu_aluno():
     while True:
         print("\n+=================================================Bem-vindo ao Menu Aluno!============================================================+")
         print("|......................Aqui você terá acesso a todas as opções para gerenciar as informações do aluno.................................|")
         print("\n|--MENU ALUNO ------------------------------------------------------------------------------------------------------------------------|")
-        print("| (1) - Cadastrar novo aluno: Adicione um novo aluno ao sistema, fornecendo informações como nome, matrícula e contato.               |")
-        print("| (2) - Editar aluno cadastrado: Faça alterações nos dados de um aluno já cadastrado, como informações de contato, nome ou matrícula. |")
+        print("| (1) - Cadastrar novo aluno: Adicione um novo aluno ao sistema, fornecendo informações como nome, semestre e matricula               |")
+        print("| (2) - Editar aluno cadastrado: Faça alterações nos dados de um aluno já cadastrado, como nome, semestre ou matrícula.               |")
         print("| (3) - Visualizar alunos cadastrados: Veja a lista completa de alunos cadastrados no sistema, com seus respectivos detalhes.         |")
         print("| (4) - Apagar aluno cadastrado: Remova um aluno do sistema, excluindo todas as informações relacionadas a ele.                       |")
         print("| (0) - Voltar para o menu principal: Retorne ao menu principal para acessar outras funcionalidades do SiGTur.                        |")
@@ -102,7 +100,7 @@ def menu_aluno():
         opcao = input(">>> Escolha uma das opções acima:")
 
         
-'''     if opcao == '1':
+        if opcao == '1':
             cadastrar_aluno()
         elif opcao == '2':
             editar_aluno()
@@ -115,5 +113,4 @@ def menu_aluno():
         else:
             print("Opção inválida. Tente novamente.")'''
 
-# Executar o programa
-menu_aluno()
+
